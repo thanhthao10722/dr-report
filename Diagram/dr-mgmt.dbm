@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.2-beta" last-position="0,0" last-zoom="1" max-obj-count="4"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="dr-mgmt" layer="0" rect-visible="true" fill-color="#e1e1e1">
+</schema>
+
+<table name="user" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="&quot;dr-mgmt&quot;"/>
+	<position x="8" y="19"/>
+	<column name="_id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="_created">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="_deleted">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="name__given">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="name__family">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="keycloak_id">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="email">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="username">
+		<type name="character varying" length="0"/>
+	</column>
+	<constraint name="user_pk" type="pk-constr" table="&quot;dr-mgmt&quot;.&quot;user&quot;">
+		<columns names="_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="diagnosis" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="&quot;dr-mgmt&quot;"/>
+	<position x="181" y="254"/>
+	<column name="_id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="_created">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="_deleted">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="_creator">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="dr_stage_id">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="path">
+		<type name="character varying" length="0"/>
+	</column>
+	<constraint name="diagnosis_pk" type="pk-constr" table="&quot;dr-mgmt&quot;.diagnosis">
+		<columns names="_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dr-stage" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="&quot;dr-mgmt&quot;"/>
+	<position x="374" y="28"/>
+	<column name="_id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="code">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="description">
+		<type name="character varying" length="0"/>
+	</column>
+	<column name="_created">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="_deleted">
+		<type name="character varying" length="0"/>
+	</column>
+	<constraint name="dr-stage_pk" type="pk-constr" table="&quot;dr-mgmt&quot;.&quot;dr-stage&quot;">
+		<columns names="_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="user_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="&quot;dr-mgmt&quot;.&quot;user&quot;" table="&quot;dr-mgmt&quot;.diagnosis">
+	<columns names="_creator" ref-type="src-columns"/>
+	<columns names="_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="stage_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="&quot;dr-mgmt&quot;.&quot;dr-stage&quot;" table="&quot;dr-mgmt&quot;.diagnosis">
+	<columns names="dr_stage_id" ref-type="src-columns"/>
+	<columns names="_id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_diagnosis_user" type="relfk" layer="0"
+	 src-table="&quot;dr-mgmt&quot;.diagnosis"
+	 dst-table="&quot;dr-mgmt&quot;.&quot;user&quot;" reference-fk="user_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_diagnosis_dr-stage" type="relfk" layer="0"
+	 src-table="&quot;dr-mgmt&quot;.diagnosis"
+	 dst-table="&quot;dr-mgmt&quot;.&quot;dr-stage&quot;" reference-fk="stage_fk"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="83.9576" y="5.92344"/>
+	</label>
+</relationship>
+
+</dbmodel>
